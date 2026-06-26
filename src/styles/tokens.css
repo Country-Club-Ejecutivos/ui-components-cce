@@ -1,0 +1,201 @@
+/*
+ * @countryclub/ui — Brand & UI tokens
+ *
+ * Import in the consuming project's global CSS (after @import "tailwindcss"):
+ *   @import "../../ui-library/dist/tokens.css";
+ */
+
+/* ── @font-face ──────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Minion Variable";
+  src: url("/fonts/MinionVariableConcept-Roman.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Minion Variable";
+  src: url("/fonts/MinionVariableConcept-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mrs Eaves OT";
+  src: url("/fonts/Mrs_Eaves_OT_Roman.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mrs Eaves OT";
+  src: url("/fonts/Mrs_Eaves_OT_Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mrs Eaves OT";
+  src: url("/fonts/Mrs_Eaves_OT_Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Static brand tokens (Tailwind utilities: bg-primary, text-primary-dark, etc.) ── */
+@theme {
+  --color-primary:       #008576;
+  --color-primary-dark:  #006b5e;
+  --color-primary-light: #e0f5f2;
+  --color-company-gray:  #706f6f;
+
+  --font-sans:    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif:   "Minion Variable", Georgia, serif;
+  --font-display: "Mrs Eaves OT", Georgia, serif;
+}
+
+/* ── Runtime CSS variables (overridable per theme / dark mode) ───── */
+:root {
+  --background:          #ffffff;
+  --foreground:          #1c1c1c;
+  --card:                #ffffff;
+  --card-foreground:     #1c1c1c;
+  --popover:             #ffffff;
+  --popover-foreground:  #1c1c1c;
+  --primary:             #008576;
+  --primary-foreground:  #ffffff;
+  --secondary:           #706f6f;
+  --secondary-foreground:#ffffff;
+  --muted:               oklch(0.97 0 0);
+  --muted-foreground:    #706f6f;
+  --accent:              #e0f5f2;
+  --accent-foreground:   #006b5e;
+  --destructive:         oklch(0.577 0.245 27.325);
+  --border:              oklch(0.922 0 0);
+  --input:               oklch(0.922 0 0);
+  --ring:                #008576;
+  --radius:              0.5rem;
+
+  --sidebar:                    #008576;
+  --sidebar-foreground:         #ffffff;
+  --sidebar-primary:            #ffffff;
+  --sidebar-primary-foreground: #008576;
+  --sidebar-accent:             rgba(255, 255, 255, 0.12);
+  --sidebar-accent-foreground:  #ffffff;
+  --sidebar-border:             rgba(255, 255, 255, 0.15);
+  --sidebar-ring:               rgba(255, 255, 255, 0.3);
+}
+
+/* ── Tailwind v4 @theme inline — maps CSS vars to utility classes ── */
+@theme inline {
+  --color-background:                var(--background);
+  --color-foreground:                var(--foreground);
+  --color-card:                      var(--card);
+  --color-card-foreground:           var(--card-foreground);
+  --color-popover:                   var(--popover);
+  --color-popover-foreground:        var(--popover-foreground);
+  --color-primary:                   var(--primary);
+  --color-primary-foreground:        var(--primary-foreground);
+  --color-secondary:                 var(--secondary);
+  --color-secondary-foreground:      var(--secondary-foreground);
+  --color-muted:                     var(--muted);
+  --color-muted-foreground:          var(--muted-foreground);
+  --color-accent:                    var(--accent);
+  --color-accent-foreground:         var(--accent-foreground);
+  --color-destructive:               var(--destructive);
+  --color-border:                    var(--border);
+  --color-input:                     var(--input);
+  --color-ring:                      var(--ring);
+  --color-sidebar:                   var(--sidebar);
+  --color-sidebar-foreground:        var(--sidebar-foreground);
+  --color-sidebar-primary:           var(--sidebar-primary);
+  --color-sidebar-primary-foreground:var(--sidebar-primary-foreground);
+  --color-sidebar-accent:            var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:            var(--sidebar-border);
+  --color-sidebar-ring:              var(--sidebar-ring);
+  --radius-sm:  calc(var(--radius) * 0.6);
+  --radius-md:  calc(var(--radius) * 0.8);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ── Base layer ──────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ── shadcn custom variants (data-active="false" is excluded) ───── */
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-checked {
+  &:where([data-state="checked"]),
+  &:where([data-checked]:not([data-checked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]),
+  &:where([data-unchecked]:not([data-unchecked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-selected {
+  &:where([data-selected="true"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-disabled {
+  &:where([data-disabled="true"]),
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-active {
+  &:where([data-state="active"]),
+  &:where([data-active]:not([data-active="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-vertical {
+  &:where([data-orientation="vertical"]) {
+    @slot;
+  }
+}
+
+/* ── Sidebar: center icons in collapsed mode ─────────────────────── */
+[data-collapsible="icon"] [data-sidebar="menu-item"] {
+  display: flex;
+  justify-content: center;
+}
