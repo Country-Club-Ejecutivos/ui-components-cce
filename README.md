@@ -224,6 +224,32 @@ const [valor, setValor] = useState<string | null>(null)
 | `disabled` | `boolean` | — | Deshabilita el control |
 | `className` | `string` | — | Clases adicionales para el botón trigger |
 
+### ImageSlider
+
+Carrusel de imágenes con flechas de navegación y puntos indicadores.
+
+```tsx
+import { ImageSlider } from '@countryclub/ui'
+
+<ImageSlider
+  images={[
+    { src: '/fotos/salon.jpg',   alt: 'Salón principal' },
+    { src: '/fotos/piscina.jpg', alt: 'Piscina' },
+    { src: '/fotos/canchas.jpg', alt: 'Canchas' },
+  ]}
+/>
+```
+
+| Prop | Tipo | Default | Descripción |
+|---|---|---|---|
+| `images` | `ImageSliderImage[]` | — | `{ src: string; alt?: string }[]` |
+| `className` | `string` | — | Clases adicionales para el contenedor externo |
+| `imageClassName` | `string` | — | Clases adicionales para cada `<img>` (p.ej. cambiar `aspect-video`) |
+
+- Las imágenes se muestran en proporción `aspect-video` (`16:9`) por defecto.
+- Los puntos solo aparecen cuando hay más de una imagen.
+- La transición entre imágenes es un slide horizontal CSS (`translateX`), sin dependencias externas.
+
 ---
 
 ## Primitivos shadcn/ui exportados

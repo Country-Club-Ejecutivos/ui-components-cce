@@ -1,4 +1,8 @@
 // ── Wrapper components (batteries-included) ───────────────────────────────────
+export { ImageSlider } from './components/ImageSlider'
+export type { ImageSliderProps, ImageSliderImage } from './components/ImageSlider'
+
+
 export { default as Sidebar } from './components/Sidebar'
 export type { SidebarProps, NavItem, SidebarUser } from './components/Sidebar'
 
