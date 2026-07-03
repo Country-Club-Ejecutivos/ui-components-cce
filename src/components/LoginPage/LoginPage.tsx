@@ -62,7 +62,7 @@ export default function LoginPage({
               id="cc-email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               placeholder="usuario@empresa.com"
               required
               autoComplete="email"
@@ -81,7 +81,7 @@ export default function LoginPage({
                 id="cc-password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
@@ -90,7 +90,7 @@ export default function LoginPage({
               <button
                 type="button"
                 tabIndex={-1}
-                onClick={() => setShowPassword((v) => !v)}
+                onClick={() => setShowPassword((v: boolean) => !v)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
               >

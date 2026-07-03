@@ -90,7 +90,7 @@ export function Combobox({
                 <CommandItem
                   key={option.value}
                   value={option.label}
-                  onSelect={label => {
+                  onSelect={(label: string) => {
                     const found = options.find(o => o.label.toLowerCase() === label.toLowerCase())
                     onChange(found ? (found.value === value ? null : found.value) : null)
                     setOpen(false)

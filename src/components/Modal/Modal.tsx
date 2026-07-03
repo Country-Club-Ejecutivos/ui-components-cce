@@ -38,7 +38,7 @@ export default function Modal({
   showCloseButton = true,
 }: ModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
+    <Dialog open={isOpen} onOpenChange={(open: boolean) => { if (!open) onClose() }}>
       <DialogContent className={sizeClass[size]} showCloseButton={showCloseButton}>
         {(title || description) && (
           <DialogHeader>
