@@ -9,6 +9,10 @@ export interface LoginWithEmailProps {
   logoCaption?: string
   title?: string
   subtitle?: string
+  /** Muestra el banner de sesión expirada cuando se provee un mensaje */
+  sessionExpiredMessage?: string
+  /** Si se provee, muestra el botón "Iniciar sesión con Microsoft" */
+  onMicrosoftLogin?: () => void
   onLogin: (email: string, password: string) => Promise<void>
   error?: string
   footerNote?: string
@@ -22,6 +26,8 @@ export default function LoginWithEmail({
   logoCaption,
   title = 'Bienvenido',
   subtitle = 'Inicia sesión para continuar',
+  sessionExpiredMessage,
+  onMicrosoftLogin,
   onLogin,
   error: externalError,
   footerNote,
@@ -61,7 +67,7 @@ export default function LoginWithEmail({
           )}
         </div>
 
-        <div className="w-full rounded-2xl border border-border bg-card shadow-sm p-8 flex flex-col gap-6">
+        <div className="w-full rounded-2xl border border-border bg-card shadow-sm p-8 flex flex-col items-center gap-6">
           <div className="text-center">
             <h1 className="text-xl font-semibold text-foreground">{title}</h1>
             {subtitle && (
@@ -69,7 +75,44 @@ export default function LoginWithEmail({
             )}
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {sessionExpiredMessage && (
+            <div className="w-full rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800 text-center">
+              {sessionExpiredMessage}
+            </div>
+          )}
+
+          {onMicrosoftLogin && (
+            <Button
+              type="button"
+              onClick={onMicrosoftLogin}
+              className="w-full h-auto py-3 px-4 gap-3"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 21 21"
+                width="20"
+                height="20"
+                aria-hidden="true"
+                className="shrink-0"
+              >
+                <rect x="1"  y="1"  width="9" height="9" fill="#f25022" />
+                <rect x="11" y="1"  width="9" height="9" fill="#7fba00" />
+                <rect x="1"  y="11" width="9" height="9" fill="#00a4ef" />
+                <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
+              </svg>
+              Iniciar sesión con Microsoft
+            </Button>
+          )}
+
+          {onMicrosoftLogin && (
+            <div className="w-full flex items-center gap-3">
+              <span className="flex-1 border-t border-border" />
+              <span className="text-xs text-muted-foreground">o continúa con correo</span>
+              <span className="flex-1 border-t border-border" />
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="lwe-email" className="text-sm font-medium text-foreground">
                 Correo electrónico
@@ -82,7 +125,7 @@ export default function LoginWithEmail({
                 placeholder={emailPlaceholder}
                 required
                 autoComplete="email"
-                autoFocus
+                autoFocus={!onMicrosoftLogin}
               />
             </div>
 
