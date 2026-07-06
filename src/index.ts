@@ -13,8 +13,8 @@ export { useModal } from './hooks/useModal'
 export { default as LoginPage } from './components/LoginPage'
 export type { LoginPageProps } from './components/LoginPage'
 
-export { default as LoginWithEmail } from './components/LoginWithEmail'
-export type { LoginWithEmailProps } from './components/LoginWithEmail'
+export { LoginCard } from './components/LoginCard'
+export type { LoginCardProps } from './components/LoginCard'
 
 export { Combobox } from './components/Combobox'
 export type { ComboboxProps, ComboboxOption } from './components/Combobox'
