@@ -168,6 +168,109 @@ import { LoginPage } from '@countryclub/ui'
 | `subtitle` | `string` | — | Subtítulo |
 | `onLogin` | `(email, password) => Promise<void>` | — | Lanza `Error` para mostrar mensaje de error |
 
+### LoginCard
+
+Pantalla de login modular con composición de slots. Permite armar cualquier combinación de inicio de sesión con Microsoft (Entra ID), solo email (magic link), o email + contraseña, sin propiedades condicionales.
+
+**Caso 1 — Entra ID (Microsoft):**
+
+```tsx
+import { LoginCard } from '@countryclub/ui'
+import Image from 'next/image'
+
+<LoginCard
+  logo={<Image src="/logo-cce.png" alt="CCE" width={180} height={72} priority />}
+  logoCaption="Portal de Gestión de Cartera"
+>
+  <LoginCard.Header>
+    <LoginCard.Title>Bienvenido</LoginCard.Title>
+    <LoginCard.Subtitle>Inicia sesión para continuar</LoginCard.Subtitle>
+  </LoginCard.Header>
+
+  <LoginCard.SessionExpired message={isSessionExpired ? 'Tu sesión expiró por inactividad.' : undefined} />
+
+  <LoginCard.MicrosoftButton onClick={handleSignIn} />
+
+  <LoginCard.FooterNote>
+    Usa tu cuenta corporativa del Country Club Ejecutivos (@countryclub.com.co) para acceder.
+  </LoginCard.FooterNote>
+</LoginCard>
+```
+
+**Caso 2 — Solo email (magic link para socios):**
+
+```tsx
+<LoginCard
+  logo={<Image src="/logo-cce.png" alt="CCE" width={180} height={72} priority />}
+  logoCaption="Portal de Socios — Estado de Cuenta"
+  onSubmit={async (email) => {
+    await sendMagicLink(email)
+  }}
+>
+  <LoginCard.Header>
+    <LoginCard.Title>Acceder a mi cuenta</LoginCard.Title>
+    <LoginCard.Subtitle>Ingresa tu correo y te enviaremos un enlace de acceso.</LoginCard.Subtitle>
+  </LoginCard.Header>
+
+  <LoginCard.Form>
+    <LoginCard.Email placeholder="correo@ejemplo.com" />
+    <LoginCard.Error />
+    <LoginCard.Submit>Enviar enlace de acceso</LoginCard.Submit>
+  </LoginCard.Form>
+</LoginCard>
+```
+
+**Caso 3 — Microsoft + fallback email/contraseña:**
+
+```tsx
+<LoginCard
+  logo={<Image src="/logo-cce.png" alt="CCE" width={180} height={72} priority />}
+  logoCaption="..."
+  onSubmit={handleEmailLogin}
+>
+  <LoginCard.Header>
+    <LoginCard.Title>Bienvenido</LoginCard.Title>
+    <LoginCard.Subtitle>Inicia sesión para continuar</LoginCard.Subtitle>
+  </LoginCard.Header>
+
+  <LoginCard.MicrosoftButton onClick={handleSignIn} />
+  <LoginCard.Divider />
+
+  <LoginCard.Form>
+    <LoginCard.Email />
+    <LoginCard.Password />
+    <LoginCard.Error />
+    <LoginCard.Submit>Ingresar</LoginCard.Submit>
+  </LoginCard.Form>
+</LoginCard>
+```
+
+**Props de `<LoginCard>` (raíz):**
+
+| Prop | Tipo | Default | Descripción |
+|---|---|---|---|
+| `logo` | `ReactNode` | — | Elemento logo sobre la tarjeta |
+| `logoCaption` | `string` | — | Texto debajo del logo |
+| `onSubmit` | `(email, password) => Promise<void>` | — | Requerido si se usa `<LoginCard.Form>` |
+| `error` | `string` | — | Error externo; se muestra con `<LoginCard.Error />` |
+
+**Slots disponibles:**
+
+| Slot | Props | Descripción |
+|---|---|---|
+| `LoginCard.Header` | `children` | Agrupa Title + Subtitle con espaciado interno |
+| `LoginCard.Title` | `children` | Heading `h1` |
+| `LoginCard.Subtitle` | `children` | Párrafo secundario (`mt-1`) |
+| `LoginCard.SessionExpired` | `message?: string` | Banner ámbar; no renderiza si `message` es falsy |
+| `LoginCard.Error` | — | Muestra el error (prop `error` o excepción del `onSubmit`) |
+| `LoginCard.MicrosoftButton` | `onClick`, `children?` | Botón con SVG de Microsoft; label por defecto "Iniciar sesión con Microsoft" |
+| `LoginCard.Divider` | `label?` | Separador "o continúa con correo" |
+| `LoginCard.Form` | `children` | Envuelve los campos en un `<form>`; conecta con `onSubmit` del contexto |
+| `LoginCard.Email` | `placeholder?`, `label?`, `autoFocus?` | Input de correo |
+| `LoginCard.Password` | `placeholder?`, `label?` | Input de contraseña con toggle mostrar/ocultar |
+| `LoginCard.Submit` | `children?`, `loadingLabel?` | Botón submit; muestra spinner mientras `onSubmit` está en curso |
+| `LoginCard.FooterNote` | `children` | Texto pequeño al pie de la tarjeta |
+
 ### Toaster
 
 Wrapper de [sonner](https://sonner.emilkowal.ski/) con los estilos del club. Agregar una vez en el layout raíz.
